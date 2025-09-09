@@ -1,0 +1,17 @@
+name: youtube_chatbot
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - langchain
+      - langchain-core
+      - langchain-google-genai
+      - google-generativeai
+      - langchain-community
+      - python-dotenv
+      - streamlit
+      - faiss-cpu
+      - youtube-transcript-api
