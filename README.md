@@ -16,8 +16,8 @@ A conversational AI assistant that answers questions about YouTube videos using 
 ## Setup
 1. **Clone the repository**
    ```sh
-   git clone <your-repo-url>
-   cd YouTube_Chatbot
+   git clone https://github.com/Priyanshu-pulak/YouTube_chatbot.git
+   cd YouTube_chatbot
    ```
 2. **Create the environment**
    ```sh
