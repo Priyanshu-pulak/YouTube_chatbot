@@ -11,6 +11,7 @@ dependencies:
       - langchain-google-genai
       - google-generativeai
       - langchain-community
+      - langchain-huggingface
       - python-dotenv
       - streamlit
       - faiss-cpu
