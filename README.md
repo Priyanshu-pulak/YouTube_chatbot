@@ -6,7 +6,6 @@ A conversational AI assistant that answers questions about YouTube videos using 
 - Fetches YouTube video transcripts automatically
 - Splits transcripts into chunks for efficient retrieval
 - Uses Google Generative AI for answering questions
-- Interactive Q&A via command line and Streamlit web app
 
 ## Requirements
 - Conda (recommended)
@@ -29,7 +28,6 @@ A conversational AI assistant that answers questions about YouTube videos using 
      ```env
      GOOGLE_API_KEY="your-google-api-key"
      ```
-   - (Optional) Add other keys if needed for future features.
 
 ## Usage
 ### Command Line
@@ -39,21 +37,10 @@ python chatbot.py
 ```
 Ask questions about the video transcript. Type 'quit' or 'exit' to stop.
 
-### Streamlit Web App
-Launch the web interface:
-```sh
-streamlit run app.py
-```
-- Enter a YouTube video URL or ID in the sidebar
-- Click "Process Video" to fetch and process the transcript
-- Ask questions in the chat interface
-
 ## File Structure
-- `chatbot.py` — Command line Q&A chatbot
-- `app.py` — Streamlit web app for interactive Q&A
+- `youtube_chatbot.py` — Command line Q&A chatbot
 - `environment.yml` — Conda environment specification
 - `.env` — API keys and secrets (not tracked in git)
 
 ## API Keys
 - **GOOGLE_API_KEY**: Required for Google Generative AI
-- Other keys (OpenAI, HuggingFace, Gemini) are not required for current features
