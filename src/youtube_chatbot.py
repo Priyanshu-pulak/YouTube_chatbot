@@ -1,17 +1,14 @@
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_core.output_parsers import StrOutputParser, PydanticOutputParser
-from langchain_core.runnables import RunnableBranch, RunnableLambda, RunnableParallel, RunnablePassthrough
-from pydantic import BaseModel, Field
-from typing import Literal, Annotated
+from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 from src.utils import fetch_transcript, split_transcript
 from src.vector_stores.qa_vector_store import build_qa_vector_store
 from src.vector_stores.summary_vector_store import build_summary_vector_store
 from src.chain.qa_chain import build_qa_chain
 from src.chain.summary_chain import build_summary_chain
-from src.chain.classification_chain import build_classification_chain
-
+from src.chain.main_chain import build_final_chain
+    
 def youtube_chatbot(video_url: str = "https://www.youtube.com/watch?v=XmRrGzR6udg&list=PLgUwDviBIf0rAuz8tVcM0AymmhTRsfaLU&index=6"):
     load_dotenv()
 
@@ -26,34 +23,12 @@ def youtube_chatbot(video_url: str = "https://www.youtube.com/watch?v=XmRrGzR6ud
     chunks = split_transcript(transcript)
 
     qa_store = build_qa_vector_store(chunks, embedding_model)
-    qa_chain = build_qa_chain(chat_model, qa_store, str_parser, k = 4)
+    qa_chain = build_qa_chain(chat_model, qa_store, str_parser, 4)
 
     summary_store = build_summary_vector_store(chunks, chat_model, embedding_model)
     summary_chain = build_summary_chain(chat_model, str_parser, summary_store, len(chunks))
 
-    class Query_category(BaseModel):
-        category: Annotated[
-            Literal['summary', 'question_answer'],
-            Field(description="The category of the query, either 'summary' or 'question_answer'.")
-        ]
-    
-    pydantic_parser = PydanticOutputParser(pydantic_object = Query_category)
-    query_classification_chain = build_classification_chain(chat_model, pydantic_parser)
-
-    query_extractor = RunnableLambda(lambda x: x['user_query'])
-
-    parallel_chain = RunnableParallel({
-        'classification': lambda x: query_classification_chain.invoke({'user_query': x}),
-        'query': RunnablePassthrough()
-    })
-
-    branch_chain = RunnableBranch(
-        (lambda x: x['classification'].category == 'summary',
-            RunnableLambda(lambda x: summary_chain.invoke(x['query']))),
-        RunnableLambda(lambda x: qa_chain.invoke(x['query']))
-    )
-
-    final_chain = query_extractor | parallel_chain | branch_chain
+    final_chain = build_final_chain(chat_model, qa_chain, summary_chain)
 
     print("YouTube Video Q&A System")
     print("Ask questions about the video. Type 'quit' or 'exit' to stop.\n")
@@ -70,7 +45,7 @@ def youtube_chatbot(video_url: str = "https://www.youtube.com/watch?v=XmRrGzR6ud
             print("Please enter a valid question.")
             continue
 
-        result = final_chain.invoke({'user_query': question})
+        result = final_chain.invoke(question)
         print(f'\n{result}')
 
 if __name__ == "__main__":
