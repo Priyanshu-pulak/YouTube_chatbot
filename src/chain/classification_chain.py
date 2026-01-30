@@ -1,4 +1,4 @@
-from src.prompt_templates.prompt import classification_prompt_template
+from src.prompt_templates import classification_prompt_template
 
 def build_classification_chain(chat_model, pydantic_parser):
     classification_prompt = classification_prompt_template(pydantic_parser)

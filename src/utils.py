@@ -1,5 +1,5 @@
 from youtube_transcript_api import YouTubeTranscriptApi, TranscriptsDisabled
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 def format_docs(retrieved_docs):
     return "\n".join(doc.page_content for doc in retrieved_docs)

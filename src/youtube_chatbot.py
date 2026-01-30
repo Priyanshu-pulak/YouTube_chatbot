@@ -1,4 +1,4 @@
-from src.chain.chatbot_chain import build_chatbot_chain
+from src.chain import build_chatbot_chain
     
 def youtube_chatbot(video_url: str = "https://www.youtube.com/watch?v=XmRrGzR6udg&list=PLgUwDviBIf0rAuz8tVcM0AymmhTRsfaLU&index=6"):
     

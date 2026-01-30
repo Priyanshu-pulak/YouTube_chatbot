@@ -3,8 +3,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 from dotenv import load_dotenv
 from src.utils import fetch_transcript, split_transcript
-from src.vector_stores.qa_vector_store import build_qa_vector_store
-from src.vector_stores.summary_vector_store import build_summary_vector_store
+from src.vector_stores import build_qa_vector_store, build_summary_vector_store
 from src.chain.qa_chain import build_qa_chain
 from src.chain.summary_chain import build_summary_chain
 from src.chain.main_chain import build_final_chain
@@ -12,7 +11,7 @@ from src.chain.main_chain import build_final_chain
 def build_chatbot_chain(video_url: str):
     load_dotenv()
 
-    chat_model = ChatGoogleGenerativeAI(model='gemini-2.5-flash-lite')
+    chat_model = ChatGoogleGenerativeAI(model='gemini-2.5-flash')
     embedding_model = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
     str_parser = StrOutputParser()
 

@@ -1,5 +1,5 @@
 from langchain_core.runnables import RunnableLambda, RunnableParallel, RunnablePassthrough
-from src.prompt_templates.prompt import summary_transcript_prompt 
+from src.prompt_templates import summary_transcript_prompt 
 from src.utils import format_docs
 
 def build_summary_chain(chat_model, str_parser, summary_vector_store, k):
