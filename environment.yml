@@ -3,12 +3,13 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.11
+  - python=3.13
   - pip
   - pip:
       - langchain
       - langchain-core
       - langchain-google-genai
+      - langchain-text-splitters
       - google-generativeai
       - langchain-community
       - langchain-huggingface
